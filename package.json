@@ -1,14 +1,18 @@
 {
   "name": "accm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Node Local Account Management",
   "main": "lib/accm.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "author": "mrodrig",
   "dependencies": {
     "password-hash": "~1.2.2",
     "underscore": "~1.8.3"
+  },
+  "devDependencies": {
+    "mocha": "~2.4.5",
+    "should": "~8.2.2"
   }
 }
