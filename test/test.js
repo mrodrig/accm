@@ -45,6 +45,12 @@ var dbTests = function () {
             });
 
             describe('file creation', function () {
+                beforeEach(function () {
+                    _.each(userDb.listUsers(), function (user) {
+                        userDb.removeUser(user.username);
+                    });
+                });
+                
                 it('should not write the database at creation because it is empty', function (done) {
                     var exists = fs.existsSync(testDbPath);
                     exists.should.equal(false);
@@ -100,10 +106,10 @@ var dbTests = function () {
                 it('should create an account', function (done) {
                     userDb.addUser('rob', 'robby123', 'Admin', {branch: 2});
                     var database = readDatabase();
-                    database.users[3].username.should.equal('rob');
-                    database.users[3].password.should.not.equal('robby123');
-                    database.users[3].role.should.equal('Admin');
-                    database.users[3].branch.should.equal(2);
+                    database.users[0].username.should.equal('rob');
+                    database.users[0].password.should.not.equal('robby123');
+                    database.users[0].role.should.equal('Admin');
+                    database.users[0].branch.should.equal(2);
                     var length = database.users.length;
                     userDb.removeUser('rob');
                     database = readDatabase();
