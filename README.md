@@ -75,10 +75,10 @@ _Note_: This requires `mocha`, `should`, `async`, and `underscore`.
 
 Current Coverage is:
 ```
-Statements   : 85.48% ( 53/62 )
-Branches     : 74.36% ( 29/39 )
-Functions    : 93.75% ( 15/16 )
-Lines        : 89.29% ( 50/56 )
+Statements   : 100% ( 62/62 )
+Branches     : 100% ( 39/39 )
+Functions    : 100% ( 16/16 )
+Lines        : 100% ( 56/56 )
 ```
 
 ## Features

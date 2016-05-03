@@ -104,6 +104,11 @@ var dbTests = function () {
             
             describe('account functionality', function () {
                 it('should create an account', function (done) {
+                    try {
+                        userDb.addUser();
+                    } catch (e) {
+                        e.message.should.equal('A username, password, and role are required.');
+                    }
                     userDb.addUser('rob', 'robby123', 'Admin', {branch: 2});
                     var database = readDatabase();
                     database.users[0].username.should.equal('rob');
@@ -111,6 +116,11 @@ var dbTests = function () {
                     database.users[0].role.should.equal('Admin');
                     database.users[0].branch.should.equal(2);
                     var length = database.users.length;
+                    try {
+                        userDb.addUser('rob', 'robby123', 'Admin', {branch: 2});
+                    } catch (e) {
+                        e.message.should.equal('Username already exists');
+                    }
                     userDb.removeUser('rob');
                     database = readDatabase();
                     database.users.length.should.not.equal(length);
@@ -127,6 +137,8 @@ var dbTests = function () {
                     returnCode.should.not.equal(false);
                     (typeof returnCode).should.equal('object');
                     returnCode.username.should.equal('mike');
+                    returnCode = userDb.authenticate('userdoesnotexist', 'asdasdasc');
+                    assert.equal(returnCode, null);
                     done();
                 });
                 
@@ -135,9 +147,16 @@ var dbTests = function () {
                     userDb.updateRole('mrodrig', 'Developer');
                     userDb.updateAccountField('mrodrig', 'branch', 1);
                     userDb.updatePassword('mrodrig', 'dev');
+                    try {
+                        userDb.updatePassword('userdoesnotexist');
+                    } catch (e) {
+                        e.message.should.equal('A username and new password are required.');
+                    }
                     var user = userDb.authenticate('mrodrig', 'dev');
                     user.role.should.equal('Developer');
                     user.branch.should.equal(1);
+                    var returnCode = userDb.updateRole('userdoesnotexist', 'Admin');
+                    assert.equal(returnCode, null);
                     done();
                 });
                 
@@ -148,6 +167,8 @@ var dbTests = function () {
                     returnCode.should.equal(false);
                     returnCode = userDb.checkAccess('testing2', ['Admin']);
                     returnCode.should.equal(false);
+                    returnCode = userDb.checkAccess('testing2', 'Admin');
+                    returnCode.should.equal(false);
                     returnCode = userDb.checkAccess('testing2', ['Admin', 'Dev', 'Administrator']);
                     returnCode.should.equal(true);
                     returnCode = userDb.checkAccess('testing3', ['Admin', 'Dev', 'Administrator']);
@@ -156,7 +177,19 @@ var dbTests = function () {
                     returnCode.should.equal(true);
                     returnCode = userDb.checkAccess('testing3', ['Administrator']);
                     returnCode.should.equal(false);
+                    returnCode = userDb.checkAccess('testing3', 'Administrator');
+                    returnCode.should.equal(false);
                     returnCode = userDb.checkAccess('testing3', ['Administrator', 'Admin2', 'Dev']);
+                    returnCode.should.equal(true);
+                    returnCode = userDb.checkAccess('userdoesnotexist', ['Administrator', 'Admin2', 'Dev']);
+                    assert.equal(returnCode, null);
+                    done();
+                });
+                
+                it('should be able to check if a user exists', function(done) {
+                    var returnCode = userDb.checkUsernameExists('rob');
+                    returnCode.should.equal(false);
+                    returnCode = userDb.checkUsernameExists('mike');
                     returnCode.should.equal(true);
                     done();
                 });
