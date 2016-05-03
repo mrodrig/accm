@@ -143,11 +143,20 @@ var dbTests = function () {
                 
                 it('should be able to check if a user has access', function(done) {
                     userDb.addUser('testing2', 'accm_dev', 'Dev', {branch:5});
+                    userDb.addUser('testing3', 'accm_dev', ['Dev', 'Admin2'], {branch:5});
                     var returnCode = userDb.checkAccess('mrodrig', []);
                     returnCode.should.equal(false);
                     returnCode = userDb.checkAccess('testing2', ['Admin']);
                     returnCode.should.equal(false);
                     returnCode = userDb.checkAccess('testing2', ['Admin', 'Dev', 'Administrator']);
+                    returnCode.should.equal(true);
+                    returnCode = userDb.checkAccess('testing3', ['Admin', 'Dev', 'Administrator']);
+                    returnCode.should.equal(true);
+                    returnCode = userDb.checkAccess('testing3', ['Admin1', 'Dev', 'Administrator']);
+                    returnCode.should.equal(true);
+                    returnCode = userDb.checkAccess('testing3', ['Administrator']);
+                    returnCode.should.equal(false);
+                    returnCode = userDb.checkAccess('testing3', ['Administrator', 'Admin2', 'Dev']);
                     returnCode.should.equal(true);
                     done();
                 });

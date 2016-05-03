@@ -1,6 +1,6 @@
 {
   "name": "accm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node Local Account Management",
   "main": "lib/accm.js",
   "scripts": {
