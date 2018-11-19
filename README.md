@@ -1,10 +1,11 @@
 # Basic JSON Account Management System for NodeJS
 
+[![Dependencies](https://img.shields.io/david/mrodrig/deeks.svg?style=flat-square)](https://www.npmjs.org/package/deeks)
 [![Build Status](https://travis-ci.org/mrodrig/accm.svg?branch=master)](https://travis-ci.org/mrodrig/accm)
-[![bitHound Dependencies](https://www.bithound.io/github/mrodrig/accm/badges/dependencies.svg)](https://www.bithound.io/github/mrodrig/accm/master/dependencies/npm)
 [![Downloads](http://img.shields.io/npm/dm/accm.svg)](https://www.npmjs.org/package/accm)
 [![NPM version](https://img.shields.io/npm/v/accm.svg)](https://www.npmjs.org/package/accm)
-[![bitHound Score](https://www.bithound.io/github/mrodrig/accm/badges/score.svg)](https://www.bithound.io/github/mrodrig/accm)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1765da9b942286c0bb13/maintainability)](https://codeclimate.com/github/mrodrig/accm/maintainability)
+[![Known Vulnerabilities](https://snyk.io/test/npm/deeks/badge.svg)](https://snyk.io/test/npm/deeks)
 
 ## Installation
 
@@ -15,7 +16,7 @@ $ npm install accm
 ## Usage
 
 ```javascript
-var accm = require('accm'),
+let accm = require('accm'),
     userDb = accm('./path/to/user/database.json');
 ```
 
