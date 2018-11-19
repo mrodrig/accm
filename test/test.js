@@ -1,16 +1,16 @@
-var should = require('should'),
+let should = require('should'),
     assert = require('assert'),
     fs = require('fs'),
     _ = require('underscore'),
-    accm = require('../lib/accm.js'),
+    accm = require('../src/accm.js'),
     testDbPath = './test/users.json',
     userDb = accm(testDbPath);
     
-var readDatabase = function () {
+let readDatabase = function () {
     return JSON.parse(fs.readFileSync(testDbPath));
 };
 
-var dbTests = function () {
+let dbTests = function () {
     describe('accm Module', function () {
         describe('Verify Interface Functions', function () {
             it('should provide interface functions', function (done) {
@@ -52,25 +52,25 @@ var dbTests = function () {
                 });
                 
                 it('should not write the database at creation because it is empty', function (done) {
-                    var exists = fs.existsSync(testDbPath);
+                    let exists = fs.existsSync(testDbPath);
                     exists.should.equal(false);
                     done();
                 });
                 
                 it('should not write the database if removeUser is called on empty db', function (done) {
-                    var returnCode = userDb.removeUser('test');
-                    var exists = fs.existsSync(testDbPath);
+                    let returnCode = userDb.removeUser('test');
+                    let exists = fs.existsSync(testDbPath);
                     assert.equal(returnCode, null);
                     exists.should.equal(false);
                     done();
                 });
                 
                 it('should write the database if addUser is called (empty)', function (done) {
-                    var returnCode = userDb.addUser('test', 'test123', 'Tester', {branch:2});
-                    var exists = fs.existsSync(testDbPath);
+                    let returnCode = userDb.addUser('test', 'test123', 'Tester', {branch:2});
+                    let exists = fs.existsSync(testDbPath);
                     assert.equal(returnCode, true);
                     exists.should.equal(true);
-                    var database = readDatabase();
+                    let database = readDatabase();
                     database.users.length.should.equal(1);
                     database.users[0].branch.should.equal(2);
                     done();
@@ -78,8 +78,8 @@ var dbTests = function () {
                 
                 it('should write the database if addUser is called (non-empty)', function (done) {
                     //test:
-                    var returnCode = userDb.addUser('test', 'test123', 'Tester', {branch:2});
-                    var exists = fs.existsSync(testDbPath);
+                    let returnCode = userDb.addUser('test', 'test123', 'Tester', {branch:2});
+                    let exists = fs.existsSync(testDbPath);
                     assert.equal(returnCode, true);
                     exists.should.equal(true);
                     returnCode = userDb.addUser('test2', 'tester', 'Tester', {branch:3});
@@ -90,8 +90,8 @@ var dbTests = function () {
                 });
                 
                 it('should write the database if removeUser is called (non-empty)', function (done) {
-                    var returnCode = userDb.addUser('test', 'test123', 'Tester', {branch:2});
-                    var exists = fs.existsSync(testDbPath);
+                    let returnCode = userDb.addUser('test', 'test123', 'Tester', {branch:2});
+                    let exists = fs.existsSync(testDbPath);
                     assert.equal(returnCode, true);
                     exists.should.equal(true);
                     returnCode = userDb.removeUser('test');
@@ -110,12 +110,12 @@ var dbTests = function () {
                         e.message.should.equal('A username, password, and role are required.');
                     }
                     userDb.addUser('rob', 'robby123', 'Admin', {branch: 2});
-                    var database = readDatabase();
+                    let database = readDatabase();
                     database.users[0].username.should.equal('rob');
                     database.users[0].password.should.not.equal('robby123');
                     database.users[0].role.should.equal('Admin');
                     database.users[0].branch.should.equal(2);
-                    var length = database.users.length;
+                    let length = database.users.length;
                     try {
                         userDb.addUser('rob', 'robby123', 'Admin', {branch: 2});
                     } catch (e) {
@@ -129,7 +129,7 @@ var dbTests = function () {
                 
                 it('should be able to authenticate a username/password', function(done) {
                     userDb.addUser('mike', 'accm_developer', 'Developer');
-                    var returnCode = userDb.authenticate('mike', 'a_developer');
+                    let returnCode = userDb.authenticate('mike', 'a_developer');
                     returnCode.should.equal(false);
                     returnCode = userDb.authenticate('mike', 'acm_developer');
                     returnCode.should.equal(false);
@@ -152,10 +152,10 @@ var dbTests = function () {
                     } catch (e) {
                         e.message.should.equal('A username and new password are required.');
                     }
-                    var user = userDb.authenticate('mrodrig', 'dev');
+                    let user = userDb.authenticate('mrodrig', 'dev');
                     user.role.should.equal('Developer');
                     user.branch.should.equal(1);
-                    var returnCode = userDb.updateRole('userdoesnotexist', 'Admin');
+                    let returnCode = userDb.updateRole('userdoesnotexist', 'Admin');
                     assert.equal(returnCode, null);
                     done();
                 });
@@ -163,7 +163,7 @@ var dbTests = function () {
                 it('should be able to check if a user has access', function(done) {
                     userDb.addUser('testing2', 'accm_dev', 'Dev', {branch:5});
                     userDb.addUser('testing3', 'accm_dev', ['Dev', 'Admin2'], {branch:5});
-                    var returnCode = userDb.checkAccess('mrodrig', []);
+                    let returnCode = userDb.checkAccess('mrodrig', []);
                     returnCode.should.equal(false);
                     returnCode = userDb.checkAccess('testing2', ['Admin']);
                     returnCode.should.equal(false);
@@ -187,7 +187,7 @@ var dbTests = function () {
                 });
                 
                 it('should be able to check if a user exists', function(done) {
-                    var returnCode = userDb.checkUsernameExists('rob');
+                    let returnCode = userDb.checkUsernameExists('rob');
                     returnCode.should.equal(false);
                     returnCode = userDb.checkUsernameExists('mike');
                     returnCode.should.equal(true);
@@ -215,7 +215,7 @@ var dbTests = function () {
         
         it('should be able to open an existing database', function (done) {
             // create db
-            var db = accm(testDbPath);
+            let db = accm(testDbPath);
             
             db.addUser('r1', 'pass123', 'Admin');
             db.addUser('r2', 'pass123', 'Admin');
