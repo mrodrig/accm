@@ -1,3 +1,5 @@
+package-lock.js
+.idea
+*.iml
 node_modules
-test/users.json
 coverage
