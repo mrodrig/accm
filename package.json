@@ -9,7 +9,7 @@
   "author": "mrodrig",
   "dependencies": {
     "password-hash": "1.2.2",
-    "underscore": "1.9.1"
+    "underscore": "1.12.1"
   },
   "devDependencies": {
     "mocha": "7.1.2",
